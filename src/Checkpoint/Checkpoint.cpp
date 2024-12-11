@@ -35,6 +35,8 @@
 #include "LaserEnvelope.h"
 #include "BinaryProcesses.h"
 #include "CollisionalNuclearReaction.h"
+#include <H5.h>
+#include <Tools.h>
 
 using namespace std;
 
@@ -630,6 +632,7 @@ void Checkpoint::restartAll( VectorPatch &vecPatches, Region &region, SmileiMPI 
     }
     // Poynting scalars
     unsigned int k=0;
+    (void)k;
     for( unsigned int j=0; j<2; j++ ) { //directions (xmin/xmax, ymin/ymax, zmin/zmax)
         for( unsigned int i=0; i<params.nDim_field; i++ ) { //axis 0=x, 1=y, 2=z
             string poy_name = Tools::merge( "Poy", Tools::xyz[i], j==0?"min":"max" );

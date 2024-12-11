@@ -18,11 +18,11 @@ public :
     //! Default destructor
     ~DiagnosticParticleList() override;
     
-    virtual void openFile( Params &params, SmileiMPI *smpi ) = 0;
+    virtual void openFile( Params &params, SmileiMPI *smpi ) override; //= 0;
     
-    virtual void closeFile() = 0;
+    virtual void closeFile() override; //= 0;
     
-    virtual void init( Params &params, SmileiMPI *smpi, VectorPatch &vecPatches ) = 0;
+    virtual void init( Params &params, SmileiMPI *smpi, VectorPatch &vecPatches ) override; //= 0;
     
     bool prepare( int itime ) override;
     
@@ -35,7 +35,7 @@ public :
     }
     
     //! Get disk footprint of current diagnostic
-    virtual uint64_t getDiskFootPrint( int istart, int istop, Patch *patch ) = 0;
+    virtual uint64_t getDiskFootPrint( int istart, int istop, Patch *patch ) override; //= 0;
     
     //! Returns the Particles object of interest in a given patch
     virtual Particles * getParticles( Patch * patch ) = 0;

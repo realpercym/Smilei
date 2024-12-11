@@ -3,7 +3,7 @@
 #define Laser_H
 
 #include "PyTools.h"
-#include "Profile.h"
+#include "profile.h"
 #include "Field.h"
 #include "Field1D.h"
 #include "Field2D.h"

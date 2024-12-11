@@ -109,7 +109,8 @@ ifneq ($(strip $(BOOST_ROOT_DIR)),)
 CXXFLAGS += -I$(BOOST_ROOT_DIR)/include
 LDFLAGS := -L$(BOOST_ROOT_DIR)/lib $(LDFLAGS)
 endif
-LDFLAGS += -lhdf5
+LDFLAGS += -lhdf5 -framework Accelerate
+
 # Include subdirs
 CXXFLAGS += $(DIRS:%=-I%)
 DEPSFLAGS += $(DIRS:%=-I%)
@@ -198,31 +199,31 @@ ifneq (,$(call parse_config,detailed_timers))
 	CXXFLAGS += -D__DETAILED_TIMERS
 endif
 
-# NVIDIA GPUs
-ifneq (,$(call parse_config,gpu_nvidia))
-	override config += noopenmp # Prevent openmp for nvidia
+# # NVIDIA GPUs
+# ifneq (,$(call parse_config,gpu_nvidia))
+# 	override config += noopenmp # Prevent openmp for nvidia
 	
-	CXXFLAGS += -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OACC
-	GPU_COMPILER ?= nvcc
-	GPU_COMPILER_FLAGS += -x cu -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OACC $(DIRS:%=-I%)
-	GPU_COMPILER_FLAGS += -I$(BUILD_DIR)/src/Python $(PY_CXXFLAGS)
-	GPU_KERNEL_SRCS := $(shell find src/* -name \*.cu)
-	GPU_KERNEL_OBJS := $(addprefix $(BUILD_DIR)/, $(GPU_KERNEL_SRCS:.cu=.o))
+# 	CXXFLAGS += -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OACC
+# 	GPU_COMPILER ?= nvcc
+# 	GPU_COMPILER_FLAGS += -x cu -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OACC $(DIRS:%=-I%)
+# 	GPU_COMPILER_FLAGS += -I$(BUILD_DIR)/src/Python $(PY_CXXFLAGS)
+# 	GPU_KERNEL_SRCS := $(shell find src/* -name \*.cu)
+# 	GPU_KERNEL_OBJS := $(addprefix $(BUILD_DIR)/, $(GPU_KERNEL_SRCS:.cu=.o))
 	
-	OBJS += $(GPU_KERNEL_OBJS)
-endif
+# 	OBJS += $(GPU_KERNEL_OBJS)
+# endif
 
-# AMD GPUs
-ifneq (,$(call parse_config,gpu_amd))
-	CXXFLAGS += -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OMP
-	GPU_COMPILER ?= $(CC)
-	GPU_COMPILER_FLAGS += -x hip -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OMP -std=c++14 $(DIRS:%=-I%)
-	GPU_COMPILER_FLAGS += -I$(BUILD_DIR)/src/Python $(PY_CXXFLAGS)
-	GPU_KERNEL_SRCS := $(shell find src/* -name \*.cu)
-	GPU_KERNEL_OBJS := $(addprefix $(BUILD_DIR)/, $(GPU_KERNEL_SRCS:.cu=.o))
+# # AMD GPUs
+# ifneq (,$(call parse_config,gpu_amd))
+# 	CXXFLAGS += -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OMP
+# 	GPU_COMPILER ?= $(CC)
+# 	GPU_COMPILER_FLAGS += -x hip -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OMP -std=c++14 $(DIRS:%=-I%)
+# 	GPU_COMPILER_FLAGS += -I$(BUILD_DIR)/src/Python $(PY_CXXFLAGS)
+# 	GPU_KERNEL_SRCS := $(shell find src/* -name \*.cu)
+# 	GPU_KERNEL_OBJS := $(addprefix $(BUILD_DIR)/, $(GPU_KERNEL_SRCS:.cu=.o))
 	
-	OBJS += $(GPU_KERNEL_OBJS)
-endif
+# 	OBJS += $(GPU_KERNEL_OBJS)
+# endif
 
 #activate openmp unless noopenmp flag
 # For Fujitsu compiler: -Kopenmp

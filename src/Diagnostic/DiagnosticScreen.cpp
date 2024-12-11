@@ -4,7 +4,6 @@
 #include "DiagnosticScreen.h"
 #include "HistogramFactory.h"
 
-
 using namespace std;
 
 
@@ -219,7 +218,8 @@ void DiagnosticScreen::run( Patch *patch, int, SimWindow *simWindow )
     }
     vector<int> int_buffer( npart_total, 0 );
     vector<double> double_buffer( npart_total );
-    bool opposite[npart_total]; // cannot use vector<bool>
+    //bool opposite[npart_total]; // cannot use vector<bool>
+    std::vector<int> opposite(npart_total, 0); // Initialize with 0
     for( unsigned int i=0; i<npart_total; i++ ) {
         opposite[i] = false;
     }
@@ -232,7 +232,8 @@ void DiagnosticScreen::run( Patch *patch, int, SimWindow *simWindow )
         Species *s = patch->vecSpecies[species_indices[ispec]];
         unsigned int npart = s->getNbrOfParticles();
         int *index = &int_buffer[istart];
-        bool *opp = &opposite[istart];
+    //    bool *opp = &opposite[istart];
+        int* opp = opposite.data() + istart; //Safe pointer access
        
         // Fill the int_buffer with -1 (not crossing screen) and 0 (crossing screen)
         if( screen_type == 0 ) { // plane

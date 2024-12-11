@@ -3,7 +3,7 @@
 
 #include "PyTools.h"
 #include "Params.h"
-#include "Profile.h"
+#include "profile.h"
 
 //! Class to get a quick view of a species profile, even when the species particles have not been created
 class PeekAtSpecies
