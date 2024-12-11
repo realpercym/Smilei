@@ -15,7 +15,7 @@
 #include "Pusher.h"
 #include "Ionization.h"
 #include "ElectroMagn.h"
-#include "profile.h"
+#include "Profile.h"
 #include "AsyncMPIbuffers.h"
 #include "Radiation.h"
 #include "RadiationTables.h"

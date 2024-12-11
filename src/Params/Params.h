@@ -25,7 +25,6 @@
 #include <algorithm>
 #include <iterator>
 #include <random>
-#include<Smilei.h>
 
 class SmileiMPI;
 class Species;

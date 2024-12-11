@@ -8,7 +8,7 @@
 #include "Field.h"
 #include "cField.h"
 #include "Tools.h"
-#include "profile.h"
+#include "Profile.h"
 #include "Species.h"
 
 

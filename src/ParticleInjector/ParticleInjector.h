@@ -13,7 +13,7 @@
 #include <string>
 
 #include "Params.h"
-#include "profile.h"
+#include "Profile.h"
 
 //! class ParticleInjector
 class ParticleInjector

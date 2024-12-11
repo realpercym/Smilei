@@ -36,7 +36,8 @@ VERSION:=$(shell $(PYTHONEXE) scripts/compile_tools/get-version.py )
 #-----------------------------------------------------
 # Compiler specific flags
 
-COMPILER_INFO := $(shell $(SMILEICXX) -show | cut -d' ' -f1)
+#COMPILER_INFO := $(shell $(SMILEICXX) -show | cut -d' ' -f1)
+COMPILER_INFO := $(shell $(SMILEICXX) --version | head -n1 | cut -d' ' -f1)
 
 ifeq ($(findstring g++, $(COMPILER_INFO)), g++)
 	CXXFLAGS += -Wno-reorder
@@ -85,17 +86,17 @@ CXXFLAGS += -D__VERSION=\"$(VERSION)\"
 CXXFLAGS += -DOMPI_SKIP_MPICXX
 # C++ version
 ifeq ($(findstring armclang++, $(COMPILER_INFO)), armclang++)
-	CXXFLAGS += -std=c++11 -Wall
+	CXXFLAGS += -std=c++17 -Wall
 else ifeq ($(findstring clang++, $(COMPILER_INFO)), clang++)
-	CXXFLAGS += -std=c++11 -Wall -Wno-unused-command-line-argument
+	CXXFLAGS += -std=c++17 -Wall -Wno-unused-command-line-argument
 else ifeq ($(findstring g++, $(COMPILER_INFO)), g++)
-	CXXFLAGS += -std=c++11 -Wall -Wextra
+	CXXFLAGS += -std=c++17 -Wall -Wextra
 else ifeq ($(findstring FCC, $(COMPILER_INFO)), FCC)
-	CXXFLAGS += -std=c++11
+	CXXFLAGS += -std=c++17
 else ifeq ($(findstring FCC, $(COMPILER_INFO)), FCCpx)
-	CXXFLAGS += -std=c++11
+	CXXFLAGS += -std=c++17
 else
-	CXXFLAGS += -std=c++14 #-Wall #not recognized by nvcc, make an exception
+	CXXFLAGS += -std=c++17 #-Wall #not recognized by nvcc, make an exception
 endif
 
 # HDF5 library
@@ -217,7 +218,7 @@ endif
 # ifneq (,$(call parse_config,gpu_amd))
 # 	CXXFLAGS += -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OMP
 # 	GPU_COMPILER ?= $(CC)
-# 	GPU_COMPILER_FLAGS += -x hip -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OMP -std=c++14 $(DIRS:%=-I%)
+# 	GPU_COMPILER_FLAGS += -x hip -DSMILEI_ACCELERATOR_GPU -DSMILEI_ACCELERATOR_GPU_OMP -std=c++17 $(DIRS:%=-I%)
 # 	GPU_COMPILER_FLAGS += -I$(BUILD_DIR)/src/Python $(PY_CXXFLAGS)
 # 	GPU_KERNEL_SRCS := $(shell find src/* -name \*.cu)
 # 	GPU_KERNEL_OBJS := $(addprefix $(BUILD_DIR)/, $(GPU_KERNEL_SRCS:.cu=.o))
