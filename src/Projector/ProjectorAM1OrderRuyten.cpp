@@ -1131,5 +1131,6 @@ void ProjectorAM1OrderRuyten::susceptibilityOnBuffer( ElectroMagn */*EMfields*/,
 void ProjectorAM1OrderRuyten::axisBCEnvChi( double *EnvChi )
 {
 
+(void)EnvChi;
 return;
 }

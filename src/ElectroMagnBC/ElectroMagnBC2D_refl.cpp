@@ -141,7 +141,12 @@ void ElectroMagnBC2D_refl::apply( ElectroMagn *EMfields, double, Patch *patch )
         const unsigned int nxp   = n_p[0];
         const unsigned int nxd   = n_d[0]; 
         const unsigned int nyp   = n_p[1];
-        const unsigned int nyd   = n_d[1]; 
+        const unsigned int nyd   = n_d[1];
+
+
+        #pragma unused(nxp, nyp)
+
+
         // Static cast of the fields
         //Field2D *By2D = static_cast<Field2D *>( EMfields->By_ );
         //Field2D *Bz2D = static_cast<Field2D *>( EMfields->Bz_ );
@@ -243,7 +248,12 @@ void ElectroMagnBC2D_refl::apply( ElectroMagn *EMfields, double, Patch *patch )
         const unsigned int nxp   = n_p[0];
         const unsigned int nxd   = n_d[0]; 
         const unsigned int nyp   = n_p[1];
-        const unsigned int nyd   = n_d[1]; 
+        const unsigned int nyd   = n_d[1];
+
+
+        #pragma unused(nxp, nyp)
+
+
         // APPLICATION OF BCs OVER THE FULL GHOST CELL REGION
         // Static cast of the fields
         //Field2D *Bx2D = static_cast<Field2D *>( EMfields->Bx_ );
@@ -344,6 +354,11 @@ void ElectroMagnBC2D_refl::apply( ElectroMagn *EMfields, double, Patch *patch )
         const unsigned int nxd   = n_d[0]; 
         const unsigned int nyp   = n_p[1];
         const unsigned int nyd   = n_d[1]; 
+
+
+        #pragma unused(nxp, nyp)
+
+        
         // Static cast of the fields
         //Field2D *Bx2D = static_cast<Field2D *>( EMfields->Bx_ );
         //Field2D *Bz2D = static_cast<Field2D *>( EMfields->Bz_ );

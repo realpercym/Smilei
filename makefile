@@ -44,6 +44,7 @@ ifeq ($(findstring g++, $(COMPILER_INFO)), g++)
 else ifeq ($(findstring clang++, $(COMPILER_INFO)), clang++)
 	CXXFLAGS += -Wdeprecated-register
 endif
+CXXFLAGS += -I$(CURDIR)/src/Profiles
 
 #-----------------------------------------------------
 # Directories and files
@@ -242,19 +243,18 @@ ifeq (,$(call parse_config,noopenmp))
 	CXXFLAGS += $(OPENMP_FLAG)
 endif
 
-ifneq (,$(call parse_config,picsar))
-	# New environment variable
-	FFTW3_LIB ?= $(FFTW_LIB_DIR)
-	LIBPXR ?= picsar/lib
-	# Set Picsar link environment
-	CXXFLAGS += -D_PICSAR
-	LDFLAGS += -L$(LIBPXR) -lpxr
-	LDFLAGS += -L$(FFTW3_LIB) -lfftw3_mpi  -lopenblas
-
-	LDFLAGS += -L$(FFTW3_LIB) -lfftw3_threads
-	LDFLAGS += -L$(FFTW3_LIB) -lfftw3
-	#LDFLAGS += -lgfortran
-endif
+# ifneq (,$(call parse_config,picsar))
+# 	# New environment variable
+# 	FFTW3_LIB ?= $(FFTW_LIB_DIR)
+# 	LIBPXR ?= picsar/lib
+# 	# Set Picsar link environment
+# 	CXXFLAGS += -D_PICSAR
+# 	LDFLAGS += -L$(LIBPXR) -lpxr
+# 	LDFLAGS += -L$(FFTW3_LIB) -lfftw3_mpi  -lopenblas
+# 	LDFLAGS += -L$(FFTW3_LIB) -lfftw3_threads
+# 	LDFLAGS += -L$(FFTW3_LIB) -lfftw3
+# 	#LDFLAGS += -lgfortran
+# endif
 
 
 # Manage MPI communications by a single thread (master in MW)
@@ -309,7 +309,7 @@ header:
 	@echo ""
 	@if [ $(call parse_config,debug) ]; then echo "- Debug option requested"; fi;
 	@if [ $(call parse_config,gdb) ]; then echo "- Compilation for GDB requested"; fi;
-	@if [ $(call parse_config,picsar) ]; then echo "- SMILEI linked to PICSAR requested"; fi;
+#	@if [ $(call parse_config,picsar) ]; then echo "- SMILEI linked to PICSAR requested"; fi;
 	@if [ $(call parse_config,opt-report) ]; then echo "- Optimization report requested"; fi;
 	@if [ $(call parse_config,detailed_timers) ]; then echo "- Detailed timers option requested"; fi;
 	@if [ $(call parse_config,no_mpi_tm) ]; then echo "- Compiled without MPI_THREAD_MULTIPLE"; fi;
@@ -370,10 +370,10 @@ $(BUILD_DIR)/%.o : %.cpp
 	@echo "Compiling $<"
 	$(Q) $(SMILEICXX) $(CXXFLAGS) -c $< -o $@
 
-# Compile cus
-$(BUILD_DIR)/%.o : %.cu
-	@echo "Compiling $<"
-	$(Q) $(GPU_COMPILER) $(GPU_COMPILER_FLAGS) -c $< -o $@
+# # Compile cus
+# $(BUILD_DIR)/%.o : %.cu
+# 	@echo "Compiling $<"
+# 	$(Q) $(GPU_COMPILER) $(GPU_COMPILER_FLAGS) -c $< -o $@
 
 # Link the main program
 $(EXEC): $(OBJS)
@@ -502,8 +502,8 @@ help:
 	@echo '    verbose                      : to print compile command lines'
 	@echo '    noopenmp                     : to compile without openmp'
 	@echo '    no_mpi_tm                    : to compile with a MPI library without MPI_THREAD_MULTIPLE support'
-	@echo '    gpu_nvidia                   : to compile for NVIDIA GPU (uses OpenACC)'
-	@echo '    gpu_amd                      : to compile for AMP GPU (uses OpenMP)'
+#	@echo '    gpu_nvidia                   : to compile for NVIDIA GPU (uses OpenACC)'
+#	@echo '    gpu_amd                      : to compile for AMP GPU (uses OpenMP)'
 	@echo '    detailed_timers              : to compile the code with more refined timers (refined time report)'
 	@echo '    debug                        : to compile in debug mode (code runs really slow)'
 	@echo '    opt-report                   : to generate a report about optimization, vectorization and inlining (Intel compiler)'
@@ -535,10 +535,10 @@ help:
 	@echo '  HDF5_ROOT_DIR     : folder where the HDF5 library was installed [$$HDF5_ROOT_DIR]'
 	@echo '  BUILD_DIR         : custom folder for building Smilei [build]'
 	@echo '  PYTHONEXE         : python executable [python]'
-	@echo '  GPU_COMPILER      : compiler for cuda-like files [$$CC]'
-	@echo '  GPU_COMPILER_FLAGS: flags for the $$GPU_COMPILER []'
-#    @echo '  FFTW3_LIB_DIR  : FFTW3 libraries directory [$(FFTW3_LIB_DIR)]'
-#    @echo '  LIBPXR         : Picsar library directory [$(LIBPXR)]'
+#	@echo '  GPU_COMPILER      : compiler for cuda-like files [$$CC]'
+#	@echo '  GPU_COMPILER_FLAGS: flags for the $$GPU_COMPILER []'
+#   @echo '  FFTW3_LIB_DIR  : FFTW3 libraries directory [$(FFTW3_LIB_DIR)]'
+#   @echo '  LIBPXR         : Picsar library directory [$(LIBPXR)]'
 	@echo
 	@echo 'Intel Inspector environment:'
 	@echo '  INSPECTOR_ROOT_DIR    : only needed to use the inspector API (__itt functions) [$(INSPECTOR_ROOT_DIR)]'

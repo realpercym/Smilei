@@ -194,8 +194,8 @@ void cField2D::allocateDims( unsigned int mainDim, bool isPrimal )
 void cField2D::shift_x( unsigned int delta )
 {
     memmove( &( data_2D[0][0] ), &( data_2D[delta][0] ), ( dims_[1]*dims_[0]-delta*dims_[1] )*sizeof( complex<double> ) );
-    memset( &( data_2D[dims_[0]-delta][0] ), 0, delta*dims_[1]*sizeof( complex<double> ) );
-    
+    //memset( &( data_2D[dims_[0]-delta][0] ), 0, delta*dims_[1]*sizeof( complex<double> ) );
+    std::fill( &(data_2D[dims_[0]-delta][0]), &(data_2D[dims_[0]-delta][0]) + delta * dims_[1], std::complex<double>(0, 0) );
 }
 
 double cField2D::norm2( unsigned int istart[3][2], unsigned int bufsize[3][2] )

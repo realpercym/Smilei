@@ -504,12 +504,12 @@ void MergingVranicSpherical::operator() (
         // requested discretization.
         // This loop can be efficiently vectorized
         if (log_scale_) {
-//#ifdef __INTEL_COMPILER
+#ifdef __INTEL_COMPILER
             #pragma novector
-//#else
-//            #pragma omp simd private(phi_i,theta_i,mr_i)
-//             aligned(momentum_norm, particles_theta, particles_phi: 64) aligned(momentum_cell_index: 64)
-//#endif
+#else
+            #pragma omp simd private(phi_i,theta_i,mr_i)
+//            aligned(momentum_norm, particles_theta, particles_phi: 64) aligned(momentum_cell_index: 64)
+#endif
             for (ipr= 0; ipr < number_of_particles ; ipr++ ) {
 
                 // index in the radial direction mr
@@ -549,9 +549,9 @@ void MergingVranicSpherical::operator() (
 
             }
         } else {
-//            #pragma omp simd private(mr_i, phi_i, theta_i)
-//             aligned(momentum_norm, particles_theta, particles_phi: 64) aligned(momentum_cell_index: 64)
-            #pragma novector
+            #pragma omp simd private(mr_i, phi_i, theta_i)
+//            aligned(momentum_norm, particles_theta, particles_phi: 64) aligned(momentum_cell_index: 64)
+//            #pragma novector
             for (ipr= 0; ipr < number_of_particles ; ipr++ ) {
 
                 // 3d indexes in the momentum discretization
