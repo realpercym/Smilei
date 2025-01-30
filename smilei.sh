@@ -99,4 +99,3 @@ done
 cd $outdir
 $mpiexe --map-by ppr:$proc:socket:pe=$OMP_NUM_THREADS -np $proc $smilei "${namelists[@]}"
 cd $H
-
